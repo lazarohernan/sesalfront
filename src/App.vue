@@ -5,6 +5,7 @@ import AppShell from './components/layout/AppShell.vue'
 import PivotBuilder from './components/reports/PivotBuilder.vue'
 import CompactSelect from './components/common/CompactSelect.vue'
 import CircularTabs from './components/common/CircularTabs.vue'
+import ImageBanner from './components/common/ImageBanner.vue'
 import { provideApiBase } from './composables/useApiBase'
 import type { ResumenTablero } from './types/tablero.ts'
 
@@ -352,8 +353,8 @@ onBeforeUnmount(() => {
       </div>
 
       <!-- Contenido sin AppShell para la pestaña Inicio -->
-      <div v-if="pestañaActiva === 'inicio'" class="flex-1 min-h-screen">
-        <!-- Página completamente limpia -->
+      <div v-if="pestañaActiva === 'inicio'" class="flex-1 relative">
+        <ImageBanner />
       </div>
 
       <!-- Dashboard dentro de AppShell -->
