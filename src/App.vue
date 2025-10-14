@@ -351,14 +351,15 @@ onBeforeUnmount(() => {
         />
       </div>
 
-      <AppShell>
-      <!-- Pestaña Inicio: Página en blanco -->
-      <div v-if="pestañaActiva === 'inicio'" class="flex-1">
-        <!-- Página completamente en blanco -->
+      <!-- Contenido sin AppShell para la pestaña Inicio -->
+      <div v-if="pestañaActiva === 'inicio'" class="flex-1 min-h-screen">
+        <!-- Página completamente limpia -->
       </div>
 
+      <!-- Dashboard dentro de AppShell -->
+      <AppShell v-else>
       <!-- Pestaña Dashboard: Dashboard completo -->
-      <div v-else-if="pestañaActiva === 'dashboard'">
+      <div v-if="pestañaActiva === 'dashboard'">
         <section class="mt-8 flex flex-col gap-6 transition-colors duration-300 min-w-0">
       <header
         class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark sm:flex-row sm:items-center sm:justify-between"
