@@ -2,6 +2,7 @@
 import { computed, defineAsyncComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 import AppShell from './components/layout/AppShell.vue'
+import AppFooter from './components/layout/AppFooter.vue'
 import PivotBuilder from './components/reports/PivotBuilder.vue'
 import CompactSelect from './components/common/CompactSelect.vue'
 import CircularTabs from './components/common/CircularTabs.vue'
@@ -353,14 +354,87 @@ onBeforeUnmount(() => {
       </div>
 
       <!-- Contenido sin AppShell para la pestaña Inicio -->
-      <div v-if="pestañaActiva === 'inicio'" class="flex-1 relative">
-        <ImageBanner />
+      <div v-if="pestañaActiva === 'inicio'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ImageBanner />
+          <div class="mt-8 text-center">
+            <p class="text-lg text-text-secondary dark:text-text-muted max-w-4xl mx-auto leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            </p>
+          </div>
+
+          <!-- Secciones del Dashboard -->
+          <div class="mt-16">
+            <h2 class="text-3xl font-bold text-center text-primary dark:text-text-inverted mb-12">
+              Funcionalidades del Sistema
+            </h2>
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+              <!-- Resumen Institucional -->
+              <div class="group flex flex-col items-center text-center p-6 rounded-xl border border-border bg-surface hover:bg-surface-hover transition-all duration-300 dark:border-border-dark dark:bg-surface-dark dark:hover:bg-surface-dark-hover">
+                <div class="w-16 h-16 bg-accent-light dark:bg-accent-dark/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-accent-base dark:text-accent-base" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-primary dark:text-text-inverted mb-2">
+                  Resumen Institucional
+                </h3>
+                <p class="text-sm text-text-secondary dark:text-text-muted">
+                  Indicadores clave y métricas del ecosistema SESAL
+                </p>
+              </div>
+
+              <!-- Mapa Interactivo -->
+              <div class="group flex flex-col items-center text-center p-6 rounded-xl border border-border bg-surface hover:bg-surface-hover transition-all duration-300 dark:border-border-dark dark:bg-surface-dark dark:hover:bg-surface-dark-hover">
+                <div class="w-16 h-16 bg-brand-light dark:bg-brand-dark/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-brand-base dark:text-brand-base" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-primary dark:text-text-inverted mb-2">
+                  Mapa Interactivo
+                </h3>
+                <p class="text-sm text-text-secondary dark:text-text-muted">
+                  Visualización geográfica por departamento
+                </p>
+              </div>
+
+              <!-- Gráficos Dinámicos -->
+              <div class="group flex flex-col items-center text-center p-6 rounded-xl border border-border bg-surface hover:bg-surface-hover transition-all duration-300 dark:border-border-dark dark:bg-surface-dark dark:hover:bg-surface-dark-hover">
+                <div class="w-16 h-16 bg-accent-light dark:bg-accent-dark/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-accent-base dark:text-accent-base" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V8a2 2 0 00-2-2h-1.172a2 2 0 01-1.414-.586l-.828-.828A2 2 0 009.172 4H7a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-primary dark:text-text-inverted mb-2">
+                  Gráficos Dinámicos
+                </h3>
+                <p class="text-sm text-text-secondary dark:text-text-muted">
+                  Visualizaciones interactivas de datos
+                </p>
+              </div>
+
+              <!-- Tabla Dinámica -->
+              <div class="group flex flex-col items-center text-center p-6 rounded-xl border border-border bg-surface hover:bg-surface-hover transition-all duration-300 dark:border-border-dark dark:bg-surface-dark dark:hover:bg-surface-dark-hover">
+                <div class="w-16 h-16 bg-brand-light dark:bg-brand-dark/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg class="w-8 h-8 text-brand-base dark:text-brand-base" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-primary dark:text-text-inverted mb-2">
+                  Tabla Dinámica
+                </h3>
+                <p class="text-sm text-text-secondary dark:text-text-muted">
+                  Análisis interactivo y pivot tables
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Dashboard dentro de AppShell -->
-      <AppShell v-else>
-      <!-- Pestaña Dashboard: Dashboard completo -->
-      <div v-if="pestañaActiva === 'dashboard'">
+      <AppShell v-if="pestañaActiva === 'dashboard'">
         <section class="mt-8 flex flex-col gap-6 transition-colors duration-300 min-w-0">
       <header
         class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark sm:flex-row sm:items-center sm:justify-between"
@@ -481,8 +555,10 @@ onBeforeUnmount(() => {
     <section class="mt-8 flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark overflow-hidden">
       <PivotBuilder />
     </section>
-      </div>
       </AppShell>
+
+      <!-- Footer común para todas las páginas -->
+      <AppFooter />
     </div>
   </div>
 </template>
