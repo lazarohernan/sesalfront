@@ -1,14 +1,6 @@
 <template>
-  <div class="grid gap-6 text-slate-900 dark:text-slate-100 min-w-0">
-    <header class="space-y-1">
-      <h2 class="text-2xl font-semibold text-slate-900 dark:text-slate-100">Tabla Dinámica</h2>
-      <p class="max-w-xl text-sm text-slate-500 dark:text-slate-400">
-        Arrastra dimensiones y métricas para explorar los datos en tiempo real.
-      </p>
-    </header>
-
     <!-- Selector de Año -->
-    <section class="flex items-center gap-4 rounded-xl border border-border bg-surface dark:border-border-dark dark:bg-surface-dark p-4 shadow-panel">
+    <section class="flex items-center gap-4 rounded-xl border border-border bg-surface dark:border-border-dark dark:bg-surface-dark p-4 shadow-panel mb-6">
       <div class="flex items-center gap-4">
         <label class="text-sm font-medium text-secondary dark:text-text-muted">
           Año de consulta:
@@ -120,15 +112,8 @@
 
     <section
       v-if="visibleFilters.length"
-      class="rounded-xl border border-border bg-surface dark:border-border-dark dark:bg-surface-dark p-4 shadow"
+      class="rounded-xl border border-border bg-surface dark:border-border-dark dark:bg-surface-dark p-4 shadow mb-6"
     >
-      <header class="mb-3 flex items-center justify-between gap-3">
-        <div>
-          <h3 class="text-base font-semibold text-slate-900 dark:text-slate-100">Filtros aplicados</h3>
-          <p class="text-sm text-slate-500 dark:text-slate-400">Ajusta los valores sin mover los chips.</p>
-        </div>
-      </header>
-
       <div class="flex flex-wrap gap-4">
         <MultiSelect
           v-for="filtro in visibleFilters"
