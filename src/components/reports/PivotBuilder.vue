@@ -1,4 +1,5 @@
 <template>
+  <div class="grid gap-6 text-slate-900 dark:text-slate-100 min-w-0">
     <!-- Selector de Año -->
     <section class="flex items-center gap-4 rounded-xl border border-border bg-surface dark:border-border-dark dark:bg-surface-dark p-4 shadow-panel mb-6">
       <div class="flex items-center gap-4">
