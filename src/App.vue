@@ -119,7 +119,7 @@ const formatearNumero = (valor: number) =>
     maximumFractionDigits: 0
   }).format(valor)
 
-const anioMapa = ref<number>(2025)
+const anioMapa = ref<number | null>(2025)
 const anioSeleccionado = ref<number | null>(null) // null = todos los años
 const aniosDisponibles = ref<(number | null)[]>([null]) // null representa "Todos los años"
 const cargandoAnios = ref<boolean>(true)
@@ -129,7 +129,9 @@ const pestañaActiva = ref<string>('inicio')
 
 const tabs = [
   { id: 'inicio', label: 'Inicio' },
-  { id: 'dashboard', label: 'Dashboard' }
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'indicadores', label: 'Indicadores' },
+  { id: 'reportes', label: 'Tabla Dinámica' }
 ]
 
 const MapaHonduras = defineAsyncComponent(() =>
@@ -143,9 +145,15 @@ const GraficosDinamicos = defineAsyncComponent(() =>
 
 
 const actualizarTarjetas = (datos: ResumenTablero) => {
-  const descripcionDetalle = anioSeleccionado.value
-    ? `Total de filas analíticas para ${anioSeleccionado.value}`
+  // Determinar qué año mostrar en la descripción
+  const anioMostrar = anioSeleccionado.value || anioMapa.value
+  const descripcionDetalle = anioMostrar && anioMostrar !== 2025
+    ? `Total de filas analíticas para ${anioMostrar}`
     : 'Total de filas analíticas acumuladas (2008-2025)'
+  
+  const descripcionUnidades = anioMostrar && anioMostrar !== 2025
+    ? `US con registros en ${anioMostrar}`
+    : 'US registradas en catálogo institucional'
 
   tarjetas.value = [
     {
@@ -164,7 +172,7 @@ const actualizarTarjetas = (datos: ResumenTablero) => {
       id: 'unidades',
       titulo: 'Unidades de servicio',
       valor: formatearNumero(datos.totalUnidadesServicio),
-      descripcion: 'US registradas en catálogo institucional'
+      descripcion: descripcionUnidades
     },
     {
       id: 'detalle',
@@ -234,6 +242,13 @@ const cargarResumen = async (anio?: number | null) => {
 // Watcher para recargar datos cuando cambie el año seleccionado
 watch(anioSeleccionado, (nuevoAnio) => {
   void cargarResumen(nuevoAnio)
+})
+
+// Watcher para actualizar las métricas cuando cambie el año del mapa
+watch(anioMapa, (nuevoAnioMapa) => {
+  // Si el año es 2025, podría ser "Total" o el año 2025 específico
+  // Por ahora, siempre pasamos el año. Para "Total" necesitaríamos otra señal
+  void cargarResumen(nuevoAnioMapa)
 })
 
 onMounted(() => {
@@ -356,10 +371,12 @@ onBeforeUnmount(() => {
       <!-- Contenido sin AppShell para la pestaña Inicio -->
       <div v-if="pestañaActiva === 'inicio'">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+
           <ImageBanner />
           <div class="mt-8 text-center">
             <p class="text-lg text-text-secondary dark:text-text-muted max-w-4xl mx-auto leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              La Secretaría de Salud (SESAL) de Honduras impulsa este sistema de información para consolidar y analizar la base histórica de datos de salud pública del país. La plataforma integra millones de registros provenientes de los diferentes subsistemas de salud en todo el país, permitiendo generar visualizaciones, reportes y análisis dinámicos que fortalecen la gestión basada en evidencia y la toma de decisiones estratégicas.
             </p>
           </div>
 
@@ -437,7 +454,7 @@ onBeforeUnmount(() => {
       <AppShell v-if="pestañaActiva === 'dashboard'">
         <section class="mt-8 flex flex-col gap-6 transition-colors duration-300 min-w-0">
       <header
-        class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark sm:flex-row sm:items-center sm:justify-between"
+        class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark"
       >
         <div class="space-y-1">
           <h2 class="text-2xl font-semibold text-primary transition-colors duration-300 dark:text-text-inverted">
@@ -446,19 +463,6 @@ onBeforeUnmount(() => {
           <p class="text-sm text-text-secondary transition-colors duration-300 dark:text-text-muted">
             Indicadores claves del ecosistema SESAL
           </p>
-        </div>
-        <div class="flex items-center gap-3">
-          <CompactSelect
-            v-model="anioSeleccionado"
-            :options="aniosDisponibles.map(anio => ({
-              valor: anio,
-              etiqueta: anio === null ? 'Todos los años' : String(anio)
-            }))"
-            :disabled="cargandoAnios"
-            :loading="cargandoAnios"
-            placeholder="Seleccione año"
-            label="Año:"
-          />
         </div>
       </header>
 
@@ -541,20 +545,40 @@ onBeforeUnmount(() => {
       </Suspense>
     </section>
 
-    <Suspense>
-      <template #default>
-        <GraficosDinamicos :api-base="apiBase" />
-      </template>
-      <template #fallback>
-        <div class="mt-8 flex flex-col gap-6 transition-colors duration-300">
-          <div class="h-32 rounded-card border border-border bg-surface animate-pulse dark:border-border-dark dark:bg-surface-dark"></div>
-        </div>
-      </template>
-    </Suspense>
+      </AppShell>
 
-    <section class="mt-8 flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark overflow-hidden">
-      <PivotBuilder />
-    </section>
+      <!-- Pestaña de Reportes -->
+      <AppShell v-if="pestañaActiva === 'reportes'">
+        <section class="mt-8 flex flex-col gap-6 transition-colors duration-300">
+          <header class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark">
+            <div class="space-y-1">
+              <h2 class="text-2xl font-semibold text-primary transition-colors duration-300 dark:text-text-inverted">
+                Tabla Dinámica y Exportación
+              </h2>
+              <p class="text-sm text-text-secondary transition-colors duration-300 dark:text-text-muted">
+                Análisis interactivo de datos y herramientas de exportación avanzadas
+              </p>
+            </div>
+          </header>
+
+          <section class="flex flex-col gap-4 rounded-card border border-border bg-surface px-6 py-4 shadow-panel transition-colors duration-300 dark:border-border-dark dark:bg-surface-dark overflow-hidden">
+            <PivotBuilder />
+          </section>
+        </section>
+      </AppShell>
+
+      <!-- Pestaña de Indicadores -->
+      <AppShell v-if="pestañaActiva === 'indicadores'">
+        <Suspense>
+          <template #default>
+            <GraficosDinamicos :api-base="apiBase" />
+          </template>
+          <template #fallback>
+            <div class="flex flex-col gap-6 transition-colors duration-300">
+              <div class="h-32 rounded-card border border-border bg-surface animate-pulse dark:border-border-dark dark:bg-surface-dark"></div>
+            </div>
+          </template>
+        </Suspense>
       </AppShell>
 
       <!-- Footer común para todas las páginas -->

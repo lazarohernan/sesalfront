@@ -27,8 +27,7 @@
           <div
             v-for="dimension in dimensionesFiltradas"
             :key="dimension.id"
-            class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white dark:border-accent-base dark:bg-accent-dark/20 px-3 py-2 text-sm text-primary dark:text-text-inverted shadow-sm transition hover:border-accent-base hover:shadow-md cursor-move"
-            :class="obtenerClaseContenedorDimension(dimension.tipo)"
+            class="flex items-center justify-between gap-3 rounded-lg border border-blue-200 bg-white dark:border-blue-700 dark:bg-slate-800 px-3 py-2 text-sm text-primary dark:text-text-inverted shadow-sm transition hover:border-blue-400 hover:shadow-md cursor-move"
             draggable="true"
             @dragstart="handleDragStart($event, 'dimension', dimension.id)"
             tabindex="0"
@@ -36,11 +35,10 @@
             :aria-label="`Arrastrar dimensión ${dimension.etiqueta}`"
           >
             <div class="flex flex-col">
-              <span class="font-medium text-slate-900 dark:text-slate-100">{{ dimension.etiqueta }}</span>
+              <span class="font-semibold text-slate-900 dark:text-slate-100">{{ dimension.etiqueta }}</span>
             </div>
             <span
-              class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize"
-              :class="obtenerClaseBadgeDimension(dimension.tipo)"
+              class="inline-flex items-center rounded-full bg-orange-500 dark:bg-orange-600 px-2.5 py-1 text-xs font-semibold capitalize text-white shadow-sm"
             >
               {{ dimension.tipo === 'number' ? 'Numérica' : 'Texto' }}
             </span>
@@ -54,8 +52,7 @@
           <div
             v-for="medida in medidasFiltradas"
             :key="medida.id"
-            class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white dark:border-accent-base dark:bg-accent-dark/20 px-3 py-2 text-sm text-primary dark:text-text-inverted shadow-sm transition hover:border-accent-base hover:shadow-md cursor-move"
-            :class="obtenerClaseContenedorMedida(medida.agregacionPorDefecto)"
+            class="flex items-center justify-between gap-3 rounded-lg border border-blue-200 bg-white dark:border-blue-700 dark:bg-slate-800 px-3 py-2 text-sm text-primary dark:text-text-inverted shadow-sm transition hover:border-blue-400 hover:shadow-md cursor-move"
             draggable="true"
             @dragstart="handleDragStart($event, 'measure', medida.id)"
             tabindex="0"
@@ -63,11 +60,10 @@
             :aria-label="`Arrastrar métrica ${medida.etiqueta}`"
           >
             <div class="flex flex-col">
-              <span class="font-medium text-slate-900 dark:text-slate-100">{{ medida.etiqueta }}</span>
+              <span class="font-semibold text-slate-900 dark:text-slate-100">{{ medida.etiqueta }}</span>
             </div>
             <span
-              class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize"
-              :class="obtenerClaseBadgeMedida(medida.agregacionPorDefecto)"
+              class="inline-flex items-center rounded-full bg-orange-500 dark:bg-orange-600 px-2.5 py-1 text-xs font-semibold capitalize text-white shadow-sm"
             >
               {{ formatearAgregacion(medida.agregacionPorDefecto) }}
             </span>
@@ -453,7 +449,7 @@ const handleDragStart = (event: DragEvent, tipo: "dimension" | "measure", id: st
   dragImage.style.position = "absolute";
   dragImage.style.top = "-1000px";
   dragImage.style.padding = "8px 12px";
-  dragImage.style.background = "#2563eb";
+  dragImage.style.background = "#f97316";
   dragImage.style.color = "#ffffff";
   dragImage.style.borderRadius = "8px";
   dragImage.style.fontSize = "14px";
